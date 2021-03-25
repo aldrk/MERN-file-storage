@@ -10,7 +10,7 @@ app.use("/api/auth", authRouter)
 
 const start = async () => {
     try {
-        await mongoose.connect(config.get("dbUrl"))
+        await mongoose.connect(config.get("dbUrl"), {useCreateIndex: true })
 
         app.listen(PORT, () => {
             console.log("Server is listening on", PORT)
