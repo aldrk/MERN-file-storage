@@ -4,8 +4,6 @@ import Logo from "../../components/Logo"
 import Container from "../../components/Container"
 import Authorization from "./Authorization"
 
-
-
 const Navbar: FC = () => {
   return (
     <nav className={style.navbar}>

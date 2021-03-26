@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import App from "./sections/App/App"
+import Index from "./app/sections/App"
 import { Provider } from "react-redux"
 import { store } from "./store/store"
 
@@ -8,7 +8,7 @@ import "styles/index.scss"
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Index />
   </Provider>,
   document.getElementById("root")
 )

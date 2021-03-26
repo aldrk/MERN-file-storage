@@ -1,0 +1,8 @@
+@import "src/styles/pallete";
+
+.layout {
+  width: calc(100vw - 96*2px);
+  min-height: calc(100vh - 52px);
+  background-color: $main3;
+  display:inline-block;
+}

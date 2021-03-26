@@ -3,7 +3,7 @@ import style from "./style.module.scss"
 import cn from "classnames"
 
 type Props = {
-  className: string
+  className?: string
 }
 
 const Container: FC<Props> = ({children, className}) => {
