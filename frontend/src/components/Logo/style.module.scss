@@ -1,0 +1,10 @@
+.logoWrapper {
+  display: grid;
+  grid-template-columns: 35px 95px;
+  align-items: center;
+  grid-column-gap: 16px;
+
+  svg, div {
+    cursor: pointer;
+  }
+}
