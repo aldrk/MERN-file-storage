@@ -4,6 +4,7 @@ export default {
   baseUrl: "api/",
   paths: {
     registration: "auth/registration",
-    login: "auth/login"
+    login: "auth/login",
+    auth: "auth/auth"
   }
 }

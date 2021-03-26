@@ -5,7 +5,7 @@ import userReducer from "./reducers/user"
 import filesReducer from "./reducers/files"
 import {UserState} from "./interfaces/user"
 
-type State = {
+export type State = {
   user: UserState
   files: any
 }

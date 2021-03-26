@@ -1,10 +1,12 @@
-import React from "react"
+import React, {useEffect} from "react"
 import Navbar from "../Navbar"
 import {makeStyles} from "@material-ui/core"
 import {BrowserRouter,  Switch, Route} from "react-router-dom"
 import Registration from "../Auth"
 import Container from "../../components/Container"
 import styleScss from "./style.module.scss"
+import { useDispatch } from "react-redux"
+import { authUserWithToken } from "store/dispatchers/user"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
   const style = useStyles()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(authUserWithToken())
+  }, [])
 
   return (
     <BrowserRouter>

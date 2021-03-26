@@ -1,6 +1,9 @@
 export type UserState = {
   user: User | null,
   isAuth: boolean
+  isRegisterSuccess: boolean
+  isLoading: boolean
+  isError: boolean
 }
 
 export type User = {
@@ -16,7 +19,7 @@ export type Authorization = {
   password: string
 }
 
-export enum userActionsType {
+export enum UserActionsType {
   REGISTER_USER_REQUEST= "REGISTER_USER_REQUEST",
   REGISTER_USER_SUCCESS= "REGISTER_USER_SUCCESS",
   REGISTER_USER_FAIL= "REGISTER_USER_FAIL",
@@ -24,31 +27,44 @@ export enum userActionsType {
   LOGIN_USER_REQUEST= "LOGIN_USER_REQUEST",
   LOGIN_USER_SUCCESS= "LOGIN_USER_SUCCESS",
   LOGIN_USER_FAIL= "LOGIN_USER_FAIL",
+
+  LOG_OUT = "LOG_OUT",
+  AUTH = "AUTH"
 }
 
 export type registerUserRequestAction = {
-  type: userActionsType.REGISTER_USER_REQUEST,
+  type: UserActionsType.REGISTER_USER_REQUEST,
 }
 
 export type registerUserSuccessAction = {
-  type: userActionsType.REGISTER_USER_SUCCESS
+  type: UserActionsType.REGISTER_USER_SUCCESS
 }
 
 export type registerUserFailAction = {
-  type: userActionsType.REGISTER_USER_FAIL
+  type: UserActionsType.REGISTER_USER_FAIL
 }
 
 export type loginUserRequestAction = {
-  type: userActionsType.LOGIN_USER_REQUEST,
+  type: UserActionsType.LOGIN_USER_REQUEST,
 }
 
 export type loginUserSuccessAction = {
-  type: userActionsType.LOGIN_USER_SUCCESS
+  type: UserActionsType.LOGIN_USER_SUCCESS
+  payload: User
 }
 
 export type loginUserFailAction = {
-  type: userActionsType.LOGIN_USER_FAIL
+  type: UserActionsType.LOGIN_USER_FAIL
 }
 
-export type UserAction = registerUserRequestAction | registerUserSuccessAction | registerUserFailAction |
-  loginUserRequestAction | loginUserSuccessAction | loginUserFailAction
+export type logOutAction = {
+  type: UserActionsType.LOG_OUT
+}
+
+export type authAction = {
+  type: UserActionsType.AUTH
+  payload: User
+}
+
+export type UserActions = registerUserRequestAction | registerUserSuccessAction | registerUserFailAction |
+  loginUserRequestAction | loginUserSuccessAction | loginUserFailAction | logOutAction | authAction

@@ -1,17 +1,21 @@
-import React, {ChangeEvent, FC, useState} from "react"
+import React, {ChangeEvent, FC, useEffect, useState} from "react"
 import Input from "../../components/Input"
 import {Box, Button} from "@material-ui/core"
 import {Authorization} from "store/interfaces/user"
-import {useDispatch} from "react-redux"
-import {useLocation} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import {useHistory, useLocation} from "react-router-dom"
 
 import style from "./style.module.scss"
-import {authUser} from "store/dispatchers/user"
+import {authUserWithData} from "store/dispatchers/user"
+import {State} from "../../../store/store";
 
 const Registration: FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
+  const history = useHistory()
+
   const [authorizationObject, setAuthorizationObject] = useState<Authorization>({email: "", password: ""})
+  const {isRegisterSuccess, isLoading} = useSelector((state: State) => state.user)
 
   const isLoginMethod = location.pathname === "/login"
 
@@ -30,12 +34,16 @@ const Registration: FC = () => {
   }
 
   const onLoginClickHandler = () => {
-    dispatch(authUser(authorizationObject, isLoginMethod))
+    dispatch(authUserWithData(authorizationObject, isLoginMethod))
   }
 
   const onRegisterClickHandler = () => {
-    dispatch(authUser(authorizationObject, isLoginMethod))
+    dispatch(authUserWithData(authorizationObject, isLoginMethod))
   }
+
+  useEffect(() => {
+    if (isRegisterSuccess) history.push("/login")
+  }, [isRegisterSuccess])
 
   return (
     <Box boxShadow={3} className={style.wrapper}>
@@ -47,6 +55,7 @@ const Registration: FC = () => {
         placeholder="Password"
       />
       <Button
+        disabled={isLoading}
         onClick={isLoginMethod ? onLoginClickHandler : onRegisterClickHandler}
         className={style.button}
         variant="contained">{isLoginMethod ? "Login" : "Sing Up"}

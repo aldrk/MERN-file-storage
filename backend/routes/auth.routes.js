@@ -4,7 +4,8 @@ const {body, validationResult} = require("express-validator")
 const config = require("config")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const bodyParser = require('body-parser')
+const bodyParser = require("body-parser")
+const authMiddleware = require("../middlewares/auth.middleware")
 
 const router = new Router()
 
@@ -74,6 +75,30 @@ router.post("/login",  bodyParser.json(),
 
         } catch (e) {
             console.log(e)
+            return res.json({message: "Server error"})
+        }
+    }
+)
+
+router.get("/auth", authMiddleware,  bodyParser.json(),
+    async (req, res) => {
+        try {
+            const user = await User.findOne({_id: req.user.id})
+
+            const token = jwt.sign({id: user.id}, config.get("secretKey"), {expiresIn: "1h"} )
+
+            return res.json({
+                token,
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    diskSpace: user.diskSpace,
+                    usedSpace: user.usedSpace,
+                    avatar: user.avatar
+                }
+            })
+
+        } catch (e) {
             return res.json({message: "Server error"})
         }
     }
