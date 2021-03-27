@@ -6,6 +6,8 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const bodyParser = require("body-parser")
 const authMiddleware = require("../middlewares/auth.middleware")
+const File = require("../models/File")
+const fileService = require("../services/fileService")
 
 const router = new Router()
 
@@ -33,6 +35,7 @@ router.post(
 
             const newUser = new User({email, password: hashPassword})
             await newUser.save()
+            await fileService.createDir(new File({user: newUser.id, name: ""}))
 
             return res.json({message: "User was created"})
 
