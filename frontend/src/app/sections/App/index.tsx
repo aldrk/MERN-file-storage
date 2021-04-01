@@ -1,12 +1,14 @@
 import React, {useEffect} from "react"
 import Navbar from "../Navbar"
 import {makeStyles} from "@material-ui/core"
-import {BrowserRouter,  Switch, Route} from "react-router-dom"
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom"
 import Registration from "../Auth"
 import Container from "../../components/Container"
 import styleScss from "./style.module.scss"
-import { useDispatch } from "react-redux"
-import { authUserWithToken } from "store/dispatchers/user"
+import {useDispatch, useSelector} from "react-redux"
+import {authUserWithToken} from "store/dispatchers/user"
+import {State} from "../../../store/store";
+import Disk from "../Disk";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,21 +20,30 @@ const App = () => {
   const style = useStyles()
   const dispatch = useDispatch()
 
+  const {isAuth} = useSelector((state: State) => state.user)
+
   useEffect(() => {
     dispatch(authUserWithToken())
   }, [])
 
+  console.log(isAuth)
+
   return (
     <BrowserRouter>
       <div className={style.root}>
-        <Navbar />
+        <Navbar/>
         <Container className={styleScss.layout}>
-          <Switch>
-            <Route path="/registration" component={Registration} />
-          </Switch>
-          <Switch>
-            <Route path="/login" component={Registration} />
-          </Switch>
+          {isAuth
+            ? <Switch>
+              <Route exact path="/" component={Disk}/>
+              <Redirect to="/"/>
+            </Switch>
+            : <Switch>
+              <Route path="/registration" component={Registration}/>
+              <Route path="/login" component={Registration}/>
+              <Redirect to="/login"/>
+            </Switch>
+          }
         </Container>
       </div>
     </BrowserRouter>

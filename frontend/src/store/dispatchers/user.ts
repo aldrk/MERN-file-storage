@@ -38,6 +38,6 @@ export const authUserWithToken = () => (dispatch: Dispatch) => {
       localStorage.setItem("token", token)
     })
     .catch(() => {
-      //localStorage.removeItem("token")
+      localStorage.removeItem("token")
     })
 }

@@ -1,0 +1,17 @@
+@import "src/styles/pallete";
+
+.wrapper {
+  width: 100%;
+  background-color: rgba($main1, 0.4);
+  margin: 16px 0;
+  height: calc(100vh - 52px - 64px);
+  border-radius: 10px;
+  padding: 16px;
+
+  .buttons {
+    width: 400px;
+    display: grid;
+    grid-template-columns: 170px 190px;
+    grid-column-gap: 40px;
+  }
+}

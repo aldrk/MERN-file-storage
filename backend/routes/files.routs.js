@@ -5,7 +5,7 @@ const filesController = require("../controllers/filesController")
 
 const router = Router()
 
-router.post("", authMiddleware, bodyParser.json, filesController.createDir)
-router.get("", authMiddleware, bodyParser.json, filesController.getFiles)
+router.post("", authMiddleware, bodyParser.json(), filesController.createDir)
+router.get("", authMiddleware, bodyParser.json(), filesController.getFiles)
 
-module.exports = router()
+module.exports = router
