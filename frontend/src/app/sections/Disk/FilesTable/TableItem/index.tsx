@@ -6,18 +6,18 @@ import FolderIcon from "@material-ui/icons/Folder"
 import style from "./style.module.scss"
 
 type Props = {
-  row: FileData
+  file: FileData
 }
 
-const TableItem: FC<Props> = ({row}) => {
+const TableItem: FC<Props> = ({file}) => {
   return (
       <TableRow hover role="checkbox">
         <TableCell align="left" className={style.nameCellWrapper}>
           <FolderIcon />
-          {row.name}
+          {file.name}
         </TableCell>
-        <TableCell align="left">{row.date}</TableCell>
-        <TableCell align="left">{row.size}</TableCell>
+        <TableCell align="left">{file.date.toString().slice(0, 10)}</TableCell>
+        <TableCell align="left">{file.size}</TableCell>
       </TableRow>
   )
 }

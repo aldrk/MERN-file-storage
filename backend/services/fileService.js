@@ -7,7 +7,6 @@ class FileService {
         return new Promise(((resolve, reject) => {
             try {
                 const filePath = `${config.get("filePath")}/${file.user}/${file.path}`
-
                 if (!fs.existsSync(filePath)) {
                     fs.mkdirSync(filePath)
 
@@ -17,6 +16,7 @@ class FileService {
                 }
 
             } catch (e) {
+                console.log(e)
                 return reject({message: "File error"})
             }
         }))

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from "react"
 import {Table, TableBody, TableContainer, TablePagination} from "@material-ui/core"
 import TableHeader from "./TableHeader"
 import TableItem from "./TableItem"
@@ -6,27 +6,11 @@ import {Column, FileData} from "store/interfaces/files"
 
 import style from "./style.module.scss"
 
-const columns: Column[] = [
-  {id: "Name", label: "Name"},
-  {id: "Date", label: "Date"},
-  {id: "Size", label: "Size"}
-]
-
-function createData(name: string, date: string | Date, size: number): FileData {
-  return {name, date, size}
+type Props = {
+  files: FileData[]
 }
 
-const rows = [
-  createData('MyFile', '10.03.2020', 10),
-  createData('MyFile', '10.03.2020', 10),
-  createData('MyFile', '10.03.2020', 10),
-  createData('MyFile', '10.03.2020', 10),
-  createData('MyFile', '10.03.2020', 10),
-  createData('MyFile', '10.03.2020', 10),
-]
-
-
-const FilesTable = () => {
+const FilesTable: FC<Props> = ({files}) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -43,16 +27,16 @@ const FilesTable = () => {
     <div className={style.table}>
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
-          <TableHeader columns={columns} />
+          <TableHeader />
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => <TableItem row={row} />)}
+            {files.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(file => <TableItem file={file} />)}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={files.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

@@ -5,7 +5,8 @@ export type FilesState = {
 
 export enum FilesActionsType {
   SET_FILES = "SET_FILES",
-  SET_CURRENT_DIR = "SET_CURRENT_DIR"
+  SET_CURRENT_DIR = "SET_CURRENT_DIR",
+  ADD_FILE = "ADD_FILE"
 }
 
 export type setFilesAction = {
@@ -18,7 +19,12 @@ export type setCurrentDirAction = {
   payload: string
 }
 
-export type FilesActions = setFilesAction | setCurrentDirAction
+export type addFileAction= {
+  type: FilesActionsType.ADD_FILE,
+  payload: any
+}
+
+export type FilesActions = setFilesAction | setCurrentDirAction | addFileAction
 
 export type FileData = {
   name: string

@@ -21,6 +21,13 @@ const filesReducer = (state = defaultState, action: FilesActions): FilesState =>
       }
     }
 
+    case FilesActionsType.ADD_FILE: {
+      return {
+        ...state,
+        files: [...state.files, action.payload]
+      }
+    }
+
     default: return state
   }
 }

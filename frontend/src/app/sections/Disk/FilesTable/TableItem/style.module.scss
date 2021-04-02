@@ -1,5 +1,5 @@
 .nameCellWrapper {
-  display: grid;
+  display: grid!important;
   align-items: center;
   grid-template-columns: 40px 1fr;
   grid-column-gap: 8px;

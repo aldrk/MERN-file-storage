@@ -2,11 +2,13 @@ import React, {FC} from 'react';
 import {TableRow, TableCell, TableHead} from "@material-ui/core"
 import {Column} from "store/interfaces/files"
 
-type Props = {
-  columns: Column[]
-}
+const columns: Column[] = [
+  {id: "Name", label: "Name"},
+  {id: "Date", label: "Date"},
+  {id: "Size", label: "Size"}
+]
 
-const TableHeader: FC<Props> = ({columns}) => {
+const TableHeader: FC = () => {
   return (
     <TableHead>
       <TableRow>
