@@ -2,6 +2,7 @@ import React, {FC} from "react"
 import {TableRow, TableCell} from "@material-ui/core"
 import {FileData} from "store/interfaces/files"
 import FolderIcon from "@material-ui/icons/Folder"
+import DescriptionIcon from '@material-ui/icons/Description';
 import {pushToStackActionCreator, setCurrentDirActionCreator} from "store/actions/files"
 import {State} from "store/store"
 import {useDispatch, useSelector} from "react-redux"
@@ -26,7 +27,7 @@ const TableItem: FC<Props> = ({file}) => {
   return (
       <TableRow onClick={onCLickHandler} hover role="checkbox">
         <TableCell align="left" className={style.nameCellWrapper}>
-          <FolderIcon />
+          {file.type === "dir" ? <FolderIcon /> : <DescriptionIcon />}
           {file.name}
         </TableCell>
         <TableCell align="left">{file.date.toString().slice(0, 10)}</TableCell>
