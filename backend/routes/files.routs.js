@@ -8,6 +8,6 @@ const router = Router()
 router.post("", authMiddleware, bodyParser.json(), filesController.createDir)
 router.get("", authMiddleware, bodyParser.json(), filesController.getFiles)
 
-router.post("/upload", bodyParser.json(), filesController.uploadFile)
+router.post("/upload", authMiddleware, bodyParser.json(), filesController.uploadFile)
 
 module.exports = router

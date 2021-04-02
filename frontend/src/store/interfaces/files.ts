@@ -9,7 +9,8 @@ export enum FilesActionsType {
   SET_CURRENT_DIR = "SET_CURRENT_DIR",
   ADD_FILE = "ADD_FILE",
   PUSH_TO_STACK = "PUSH_TO_STACK",
-  POP_FROM_STACK = "POP_FROM_STACK"
+  POP_FROM_STACK = "POP_FROM_STACK",
+  UPLOAD_FILE = "UPLOAD_FILE"
 }
 
 export type setFilesAction = {
@@ -37,7 +38,12 @@ export type popFromStackAction = {
   payload: string
 }
 
-export type FilesActions = setFilesAction | setCurrentDirAction | addFileAction | pushToStackAction | popFromStackAction
+export type uploadFileAction = {
+  type: FilesActionsType.UPLOAD_FILE,
+  payload: any
+}
+
+export type FilesActions = setFilesAction | setCurrentDirAction | addFileAction | pushToStackAction | popFromStackAction | uploadFileAction
 
 export type FileData = {
   _id: string

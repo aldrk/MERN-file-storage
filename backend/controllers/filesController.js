@@ -2,7 +2,7 @@ const fs = require("fs")
 const File = require("../models/File")
 const User = require("../models/User")
 const fileService = require("../services/fileService")
-const config = require("../config")
+const config = require("config")
 
 class FileController {
     async createDir(req, res) {
@@ -42,6 +42,7 @@ class FileController {
     async uploadFile(req, res) {
         try {
             const file = req.files.file
+            console.log(req.user)
             const parent = await File.findOne({user: req.user.id, _id: req.body.parent})
             const user = await User.findOne({_id: req.user.id})
 
@@ -65,13 +66,14 @@ class FileController {
             await file.mv(path)
 
             const type = file.name.split(".").pop()
+            console.log()
 
             const dbFile = new File({
                 name: file.name,
                 type,
                 size: file.size,
-                path: parent?.path,
-                parent: parent?._id,
+                path: parent ? parent.path : path,
+                parent: parent ? parent._id : user._id,
                 user: user._id
             })
 

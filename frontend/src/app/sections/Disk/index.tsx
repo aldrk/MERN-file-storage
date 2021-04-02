@@ -1,13 +1,14 @@
 import {Box, Button} from "@material-ui/core"
 import React, {useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {getFiles} from "store/dispatchers/files"
+import {getFiles, uploadFile} from "store/dispatchers/files"
+import {setCurrentDirActionCreator} from "store/actions/files"
 import {State} from "store/store"
 import FilesTable from "./FilesTable"
 import Modal from "./Modal"
 
 import style from "./style.module.scss"
-import {setCurrentDirActionCreator} from "../../../store/actions/files";
+import FileUpload from "./FileUpload";
 
 const Disk = () => {
   const dispatch = useDispatch()
@@ -24,6 +25,14 @@ const Disk = () => {
     dispatch(setCurrentDirActionCreator(backDirId))
   }
 
+  const onUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const files = [...event.target.files]
+
+      files.forEach(file => dispatch(uploadFile(file, currentDir)))
+    }
+  }
+
   return (
     <div>
       <Box className={style.wrapper}>
@@ -31,6 +40,7 @@ const Disk = () => {
         <div className={style.buttons}>
           <Button color="primary" variant="outlined" onClick={onBackClickHandler}>Назад</Button>
           <Button color="primary" variant="outlined" onClick={() => setModalOpen(true)}>Создать папку</Button>
+          <FileUpload onChange={onUpload}/>
         </div>
         <FilesTable files={files} />
       </Box>
