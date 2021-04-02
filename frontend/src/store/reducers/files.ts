@@ -2,7 +2,8 @@ import {FilesActions, FilesActionsType, FilesState} from "../interfaces/files"
 
 const defaultState: FilesState = {
   files: [],
-  currentDir: ""
+  currentDir: "",
+  dirStack: []
 }
 
 const filesReducer = (state = defaultState, action: FilesActions): FilesState => {
@@ -25,6 +26,20 @@ const filesReducer = (state = defaultState, action: FilesActions): FilesState =>
       return {
         ...state,
         files: [...state.files, action.payload]
+      }
+    }
+
+    case FilesActionsType.PUSH_TO_STACK: {
+      return {
+        ...state,
+        dirStack: [...state.dirStack, action.payload]
+      }
+    }
+
+    case FilesActionsType.POP_FROM_STACK:{
+      return {
+        ...state,
+        dirStack: [...state.dirStack].slice(state.dirStack.length - 1, 1)
       }
     }
 

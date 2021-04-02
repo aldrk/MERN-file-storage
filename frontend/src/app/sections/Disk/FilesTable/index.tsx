@@ -2,7 +2,7 @@ import React, {FC} from "react"
 import {Table, TableBody, TableContainer, TablePagination} from "@material-ui/core"
 import TableHeader from "./TableHeader"
 import TableItem from "./TableItem"
-import {Column, FileData} from "store/interfaces/files"
+import {FileData} from "store/interfaces/files"
 
 import style from "./style.module.scss"
 
@@ -11,17 +11,17 @@ type Props = {
 }
 
 const FilesTable: FC<Props> = ({files}) => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+    setRowsPerPage(+event.target.value)
+    setPage(0)
+  }
 
   return (
     <div className={style.table}>

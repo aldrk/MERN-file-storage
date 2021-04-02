@@ -1,4 +1,4 @@
-import {addFileActionCreator, setCurrentDirActionCreator, setFilesActionCreator} from "store/actions/files"
+import {addFileActionCreator, setFilesActionCreator} from "store/actions/files"
 import {Dispatch} from "redux"
 import API from "../../lib/api"
 

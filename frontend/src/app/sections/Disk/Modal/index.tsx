@@ -21,12 +21,14 @@ const Modal: FC<Props> = ({onClose, open}) => {
   const createDirHandler = () => {
     if (newDirName.length === 0) {
       setError(true)
+
       return
     }
 
-    setError(false)
     dispatch(createDir(currentDir, newDirName))
+    setError(false)
     setNewDirName("")
+
     onClose()
   }
 
