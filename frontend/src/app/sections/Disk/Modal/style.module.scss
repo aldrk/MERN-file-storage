@@ -1,0 +1,50 @@
+@import "src/styles/pallete";
+
+.modal {
+  position: absolute!important;
+  top: calc(50% - 100px)!important;
+  left: calc(50% - 200px)!important;
+  background: #0568bf;
+  width: 400px;
+  height: 200px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  opacity: 1!important;
+  box-shadow: 0 0 15px 8px rgba(67, 68, 69, 0.4);
+
+  :hover, :focus, :active {
+    border: none;
+    outline: none;
+  }
+
+  .modalContent {
+    padding: 16px;
+    display: grid;
+    grid-template-rows: 40px 40px 50px;
+    grid-row-gap: 20px;
+    height: 100%;
+
+    .input {
+      div {
+        input {
+          color: white!important;
+        }
+      }
+    }
+
+    .buttonsWrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 40px;
+
+      button {
+        background-color: $main3;
+      }
+    }
+
+    .alert {
+      background-color: unset!important;
+    }
+  }
+}
