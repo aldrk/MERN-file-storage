@@ -14,6 +14,7 @@ const Disk = () => {
   const dispatch = useDispatch()
   const {currentDir, files, dirStack} = useSelector((state: State) => state.files)
   const [isModalOpen, setModalOpen] = useState(false)
+  const [isDragEnter, setDragEnter] = useState(false)
 
   useEffect(() => {
     dispatch(getFiles(currentDir))
@@ -33,9 +34,37 @@ const Disk = () => {
     }
   }
 
-  return (
+  const dragEnter = (event: React.DragEvent) => {
+    console.log("dragEnter")
+    event.preventDefault()
+    event.stopPropagation()
+
+    setDragEnter(true)
+  }
+
+  const dragLeave = (event:React.DragEvent) => {
+    console.log("dragLeave")
+    event.preventDefault()
+    event.stopPropagation()
+
+    setDragEnter(false)
+  }
+
+  const onDrop = (event: React.DragEvent) => {
+    console.log("onDrag")
+    event.preventDefault()
+    event.stopPropagation()
+
+    if (event.dataTransfer.files) {
+      let files = [...event.dataTransfer.files]
+    files.forEach((file: File)=> dispatch(uploadFile(file, currentDir)))
+    }
+    setDragEnter(false)
+  }
+
+  return ( !isDragEnter ?
     <div>
-      <Box className={style.wrapper}>
+      <Box className={style.wrapper} onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragEnter}>
         <Modal open={isModalOpen} onClose={() => setModalOpen(false)}/>
         <div className={style.buttons}>
           <Button color="primary" variant="outlined" onClick={onBackClickHandler}>Назад</Button>
@@ -45,6 +74,7 @@ const Disk = () => {
         <FilesTable files={files} />
       </Box>
     </div>
+      : <div className={style.dragArea} onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragEnter} onDrop={onDrop}>ЗАГРУЗИ СЮДА СУКА</div>
   )
 }
 
