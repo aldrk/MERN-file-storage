@@ -1,4 +1,4 @@
-import {addFileActionCreator, setFilesActionCreator} from "store/actions/files"
+import {addFileAC, removeFileAC, setErrorAC, setFilesAC} from "store/actions/files"
 import {Dispatch} from "redux"
 import API from "lib/api"
 import {FileData} from "store/interfaces/files"
@@ -12,10 +12,9 @@ export const getFiles = (dirId: string) => (dispatch: Dispatch) => {
     API.get(`files${dirId ? `?parent=${dirId}` : ""}`, {
       headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
     }).then(({data}) => {
-      dispatch(setFilesActionCreator(data))
-    })
+      dispatch(setFilesAC(data))
+    }).catch(({data}) => dispatch(setErrorAC(data.message)))
   } catch (e) {
-    console.log(e)
   }
 }
 
@@ -28,7 +27,10 @@ export const createDir = (dirId: string, name: string) => (dispatch: Dispatch) =
     }, {
       headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
     }).then(({data}) => {
-      dispatch(addFileActionCreator(data))
+      dispatch(addFileAC(data))
+    }).catch(({data}) => {
+      console.log(data)
+      dispatch(setErrorAC(data.message))
     })
   } catch (e) {
     console.log(e)
@@ -53,30 +55,41 @@ export const uploadFile = (file: File, dirId: string) => (dispatch: Dispatch) =>
         }
       }
     }).then(({data}) => {
-      dispatch(addFileActionCreator(data))
+      dispatch(addFileAC(data))
     })
+      .catch(({data}) => dispatch(setErrorAC(data.message)))
   } catch (e) {
-    console.log(e)
   }
 }
 
-export const downloadFile = (file: FileData) => async () => {
-  console.log(apiBaseURL)
-  const response = await fetch(`${apiBaseURL}files/download?id=${file._id}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`
+export const downloadFile = (file: FileData) => async (dispatch: Dispatch) => {
+  try {
+    const response = await fetch(`${apiBaseURL}files/download?id=${file._id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+
+    if (response.status === 200) {
+      const blob = await response.blob()
+      const downloadUrl = window.URL.createObjectURL(blob)
+
+      const link = document.createElement("a")
+      link.href = downloadUrl
+
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
     }
-  })
-
-  if (response.status === 200) {
-    const blob = await response.blob()
-    const downloadUrl = window.URL.createObjectURL(blob)
-
-    const link = document.createElement("a")
-    link.href = downloadUrl
-
-    document.body.appendChild(link)
-    link.click()
-    link.remove()
+  } catch (e) {
+    dispatch(setErrorAC(e.message))
   }
+}
+
+export const deleteFile = (file: FileData) => (dispatch: Dispatch) => {
+  API.delete(`/files?id=${file._id}`, {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}})
+    .then(({data}) => dispatch(removeFileAC(file)))
+    .catch((e) => {
+      dispatch(setErrorAC(e.message))
+    })
 }

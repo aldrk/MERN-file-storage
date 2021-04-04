@@ -3,7 +3,7 @@ import {TableRow, TableCell} from "@material-ui/core"
 import {FileData} from "store/interfaces/files"
 import FolderIcon from "@material-ui/icons/Folder"
 import DescriptionIcon from '@material-ui/icons/Description';
-import {pushToStackActionCreator, setCurrentDirActionCreator} from "store/actions/files"
+import {pushToStackAC, setCurrentDirAC} from "store/actions/files"
 import {State} from "store/store"
 import {useDispatch, useSelector} from "react-redux"
 
@@ -20,8 +20,8 @@ const TableItem: FC<Props> = ({file}) => {
 
   const onCLickHandler = () => {
    if (file.type === "dir") {
-     dispatch(setCurrentDirActionCreator(file._id))
-     dispatch(pushToStackActionCreator(currentDir))
+     dispatch(setCurrentDirAC(file._id))
+     dispatch(pushToStackAC(currentDir))
    }
   }
 

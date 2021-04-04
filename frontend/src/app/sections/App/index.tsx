@@ -3,12 +3,13 @@ import Navbar from "../Navbar"
 import {makeStyles} from "@material-ui/core"
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom"
 import Registration from "../Auth"
-import Container from "../../components/Container"
+import Container from "app/components/Container"
 import styleScss from "./style.module.scss"
 import {useDispatch, useSelector} from "react-redux"
 import {authUserWithToken} from "store/dispatchers/user"
-import {State} from "../../../store/store";
-import Disk from "../Disk";
+import {State} from "store/store"
+import Disk from "../Disk"
+import {useToasts} from "react-toast-notifications"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,14 +20,20 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const style = useStyles()
   const dispatch = useDispatch()
+  const {addToast} = useToasts()
 
   const {isAuth} = useSelector((state: State) => state.user)
+  const {error} = useSelector((state: State) => state.files)
+
+  useEffect(() => {
+    if (error !== null) {
+      addToast("Server Error, please try later", {appearance: "error"})
+    }
+  }, [error])
 
   useEffect(() => {
     dispatch(authUserWithToken())
   }, [])
-
-  console.log(isAuth)
 
   return (
     <BrowserRouter>

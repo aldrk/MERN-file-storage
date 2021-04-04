@@ -101,6 +101,24 @@ class FileController {
             return res.status(500).json({message: "Server error"})
         }
     }
+
+    async deleteFile(req, res) {
+        try {
+            const file = await File.findOne({_id: req.query.id, user: req.user.id})
+
+            if (!file) {
+                return res.status(400).json({message: "File not found"})
+            }
+
+            fileService.deleteFile(file)
+            await file.remove()
+
+            return res.json({message: "File was deleted"})
+        } catch (e) {
+            console.log(e)
+            res.status(400).json({message: "Dir is not empty"})
+        }
+    }
 }
 
 module.exports = new FileController()

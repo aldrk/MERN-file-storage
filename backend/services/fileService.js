@@ -3,7 +3,7 @@ const File = require("../models/File")
 const config = require("config")
 
 class FileService {
-    createDir (file) {
+    createDir(file) {
         return new Promise(((resolve, reject) => {
             try {
                 const filePath = `${config.get("filePath")}/${file.user}/${file.path}`
@@ -20,6 +20,21 @@ class FileService {
                 return reject({message: "File error"})
             }
         }))
+    }
+
+    getPath(file) {
+        return `${file.path}`
+    }
+
+    deleteFile(file) {
+        const path = this.getPath(file)
+        console.log(path)
+
+        if (file.type === "dir") {
+            fs.rmdirSync(path)
+        } else {
+            fs.unlinkSync(path)
+        }
     }
 }
 

@@ -44,3 +44,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+.react-toast-notifications__container {
+  .react-toast-notifications__toast__content {
+    color: black!important;
+    font-family: "Roboto Light", serif;
+  }
+}

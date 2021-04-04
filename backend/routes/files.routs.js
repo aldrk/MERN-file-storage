@@ -10,5 +10,6 @@ router.get("", authMiddleware, bodyParser.json(), filesController.getFiles)
 router.get("/download", authMiddleware, bodyParser.json(), filesController.downloadFile)
 
 router.post("/upload", authMiddleware, bodyParser.json(), filesController.uploadFile)
+router.delete("", authMiddleware, bodyParser.json(), filesController.deleteFile)
 
 module.exports = router

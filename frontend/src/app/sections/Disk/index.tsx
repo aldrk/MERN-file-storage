@@ -2,7 +2,7 @@ import {Box, Button} from "@material-ui/core"
 import React, {useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {getFiles, uploadFile} from "store/dispatchers/files"
-import {setCurrentDirActionCreator} from "store/actions/files"
+import {setCurrentDirAC} from "store/actions/files"
 import {State} from "store/store"
 import FilesTable from "./FilesTable"
 import Modal from "./Modal"
@@ -23,7 +23,7 @@ const Disk = () => {
   const onBackClickHandler = () => {
     const backDirId = dirStack.pop()
 
-    dispatch(setCurrentDirActionCreator(backDirId))
+    dispatch(setCurrentDirAC(backDirId))
   }
 
   const onUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,10 +59,6 @@ const Disk = () => {
     setDragEnter(false)
   }
 
-  const onDownloadHandler = () => {
-    console.log("meow")
-  }
-
   return ( !isDragEnter ?
     <div>
       <Box className={style.wrapper} onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragEnter}>
@@ -75,7 +71,7 @@ const Disk = () => {
         <FilesTable files={files} />
       </Box>
     </div>
-      : <div className={style.dragArea} onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragEnter} onDrop={onDrop}>ЗАГРУЗИ СЮДА СУКА</div>
+      : <div className={style.dragArea} onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragEnter} onDrop={onDrop}>Загрузить файл</div>
   )
 }
 

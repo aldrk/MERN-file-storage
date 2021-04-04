@@ -2,7 +2,7 @@ import React, {FC} from "react"
 import {Button, Menu, MenuItem} from "@material-ui/core"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 import {FileData} from "store/interfaces/files"
-import {downloadFile} from "store/dispatchers/files"
+import {deleteFile, downloadFile} from "store/dispatchers/files"
 import {useDispatch} from "react-redux"
 
 import style from "./style.module.scss"
@@ -32,6 +32,16 @@ const ContextMenu: FC<Props> = ({file}) => {
     event.stopPropagation()
 
     dispatch(downloadFile(file))
+
+    handleClose()
+  }
+
+  const onDeleteHandler = (event: React.MouseEvent) => {
+    event.stopPropagation()
+
+    dispatch(deleteFile(file))
+
+    handleClose()
   }
 
   return (
@@ -46,11 +56,8 @@ const ContextMenu: FC<Props> = ({file}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {type !== "dir" &&<MenuItem className={style.menuItem}>
-          <Button onClick={onDownloadHandler}>Download</Button>
-        </MenuItem>}
-        <MenuItem className={style.menuItem} onClick={handleClose}>My account</MenuItem>
-        <MenuItem className={style.menuItem} onClick={handleClose}>Logout</MenuItem>
+        {type !== "dir" &&<MenuItem className={style.menuItem} onClick={onDownloadHandler}>Загрузить</MenuItem>}
+        <MenuItem className={style.menuItem} onClick={onDeleteHandler}>Удалить</MenuItem>
       </Menu>
     </div>
   )

@@ -3,7 +3,7 @@ import {Dispatch} from "redux"
 import API from "../../lib/api"
 import config from "config"
 import * as actions from "store/actions/user"
-import {setCurrentDirActionCreator} from "../actions/files"
+import {setCurrentDirAC} from "../actions/files"
 
 export const authUserWithData = (authData: Authorization, isLoginMethod: boolean) => (dispatch: Dispatch) => {
   const {email, password} = authData
@@ -36,7 +36,7 @@ export const authUserWithToken = () => (dispatch: Dispatch) => {
       const {user, token} = data.data
 
       dispatch(actions.authAC(user))
-      dispatch(setCurrentDirActionCreator(user.id))
+      dispatch(setCurrentDirAC(user.id))
       localStorage.setItem("token", token)
     })
     .catch(() => {
