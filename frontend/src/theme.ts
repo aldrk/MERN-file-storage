@@ -21,7 +21,7 @@ const theme = createMuiTheme({
       root: {
         backgroundColor: "#1769aa"
       }
-    }
+    },
   }
 })
 

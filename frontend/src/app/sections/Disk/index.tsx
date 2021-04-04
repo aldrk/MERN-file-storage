@@ -9,16 +9,18 @@ import Modal from "./Modal"
 
 import style from "./style.module.scss"
 import FileUpload from "./FileUpload"
+import Sort from "./Sort";
 
 const Disk = () => {
   const dispatch = useDispatch()
   const {currentDir, files, dirStack} = useSelector((state: State) => state.files)
   const [isModalOpen, setModalOpen] = useState(false)
   const [isDragEnter, setDragEnter] = useState(false)
+  const [sortValue, setSortVale] = useState("")
 
   useEffect(() => {
-    dispatch(getFiles(currentDir))
-  }, [currentDir])
+    dispatch(getFiles(currentDir, sortValue))
+  }, [currentDir, sortValue])
 
   const onBackClickHandler = () => {
     const backDirId = dirStack.pop()
@@ -63,10 +65,11 @@ const Disk = () => {
     <div>
       <Box className={style.wrapper} onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragEnter}>
         <Modal open={isModalOpen} onClose={() => setModalOpen(false)}/>
-        <div className={style.buttons}>
+        <div className={style.functions}>
           <Button color="primary" variant="outlined" onClick={onBackClickHandler}>Назад</Button>
           <Button color="primary" variant="outlined" onClick={() => setModalOpen(true)}>Создать папку</Button>
           <FileUpload onChange={onUpload}/>
+          <Sort className={style.sort} sortValue={sortValue} setSortValue={setSortVale} />
         </div>
         <FilesTable files={files} />
       </Box>

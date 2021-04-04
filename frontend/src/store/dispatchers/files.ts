@@ -1,4 +1,4 @@
-import {addFileAC, removeFileAC, setErrorAC, setFilesAC} from "store/actions/files"
+import {addFileAC, fetchRequestAC, removeFileAC, setErrorAC, setFilesAC} from "store/actions/files"
 import {Dispatch} from "redux"
 import API from "lib/api"
 import {FileData} from "store/interfaces/files"
@@ -7,18 +7,36 @@ import config from "config"
 const {API_DOMAIN, baseUrl} = config
 const apiBaseURL = `${API_DOMAIN}${baseUrl}`
 
-export const getFiles = (dirId: string) => (dispatch: Dispatch) => {
+export const getFiles = (dirId: string, sortValue: string) => (dispatch: Dispatch) => {
+  let url = ""
+
+  if (dirId) {
+    url = `files/?parent=${dirId}`
+  }
+
+  if (sortValue) {
+    url = `files/?sort=${sortValue}`
+  }
+
+  if (dirId && sortValue) {
+    url = `files/?sort=${sortValue}&parent=${dirId}`
+  }
+
+  dispatch(fetchRequestAC())
+
   try {
-    API.get(`files${dirId ? `?parent=${dirId}` : ""}`, {
+    API.get(url, {
       headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
     }).then(({data}) => {
       dispatch(setFilesAC(data))
-    }).catch(({data}) => dispatch(setErrorAC(data.message)))
+    }).catch(({data}) => dispatch(setErrorAC(data)))
   } catch (e) {
   }
 }
 
 export const createDir = (dirId: string, name: string) => (dispatch: Dispatch) => {
+  dispatch(fetchRequestAC())
+
   try {
     API.post("/files", {
       name,
@@ -29,8 +47,7 @@ export const createDir = (dirId: string, name: string) => (dispatch: Dispatch) =
     }).then(({data}) => {
       dispatch(addFileAC(data))
     }).catch(({data}) => {
-      console.log(data)
-      dispatch(setErrorAC(data.message))
+      dispatch(setErrorAC(data))
     })
   } catch (e) {
     console.log(e)
@@ -45,6 +62,8 @@ export const uploadFile = (file: File, dirId: string) => (dispatch: Dispatch) =>
       formData.append("parent", dirId)
     }
 
+    dispatch(fetchRequestAC())
+
     API.post("/files/upload", formData, {
       headers: {Authorization: `Bearer ${localStorage.getItem("token")}`},
       onUploadProgress: progressEvent => {
@@ -55,9 +74,10 @@ export const uploadFile = (file: File, dirId: string) => (dispatch: Dispatch) =>
         }
       }
     }).then(({data}) => {
-      dispatch(addFileAC(data))
+      console.log(data)
+      dispatch(addFileAC(data.dbFile))
     })
-      .catch(({data}) => dispatch(setErrorAC(data.message)))
+      .catch(({data}) => dispatch(setErrorAC(data)))
   } catch (e) {
   }
 }
@@ -87,6 +107,8 @@ export const downloadFile = (file: FileData) => async (dispatch: Dispatch) => {
 }
 
 export const deleteFile = (file: FileData) => (dispatch: Dispatch) => {
+  dispatch(fetchRequestAC())
+
   API.delete(`/files?id=${file._id}`, {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}})
     .then(({data}) => dispatch(removeFileAC(file)))
     .catch((e) => {

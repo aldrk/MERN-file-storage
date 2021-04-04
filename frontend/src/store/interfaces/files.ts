@@ -2,6 +2,7 @@ export type FilesState = {
   files: FileData[]
   currentDir: string
   dirStack: Array<string>
+  isLoading: boolean
   error: string | null
 }
 
@@ -12,7 +13,8 @@ export enum FilesActionsType {
   PUSH_TO_STACK = "PUSH_TO_STACK",
   UPLOAD_FILE = "UPLOAD_FILE",
   SET_ERROR = "SET_ERROR",
-  REMOVE_FILE = "REMOVE_FILE"
+  REMOVE_FILE = "REMOVE_FILE",
+  FETCH_REQUEST = "FETCH_REQUEST",
 }
 
 export type setFilesAction = {
@@ -50,7 +52,11 @@ export type removeFileAction = {
   payload: FileData
 }
 
-export type FilesActions = setFilesAction | setCurrentDirAction | addFileAction | pushToStackAction | uploadFileAction | setErrorAction | removeFileAction
+export type fetchRequestAction = {
+  type: FilesActionsType.FETCH_REQUEST,
+}
+
+export type FilesActions = setFilesAction | setCurrentDirAction | addFileAction | pushToStackAction | uploadFileAction | setErrorAction | removeFileAction | fetchRequestAction
 
 export type FileData = {
   _id: string
