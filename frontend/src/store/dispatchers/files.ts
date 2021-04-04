@@ -1,7 +1,11 @@
 import {addFileActionCreator, setFilesActionCreator} from "store/actions/files"
 import {Dispatch} from "redux"
-import API from "../../lib/api"
-import {FileData} from "../interfaces/files";
+import API from "lib/api"
+import {FileData} from "store/interfaces/files"
+import config from "config"
+
+const {API_DOMAIN, baseUrl} = config
+const apiBaseURL = `${API_DOMAIN}${baseUrl}`
 
 export const getFiles = (dirId: string) => (dispatch: Dispatch) => {
   try {
@@ -53,5 +57,26 @@ export const uploadFile = (file: File, dirId: string) => (dispatch: Dispatch) =>
     })
   } catch (e) {
     console.log(e)
+  }
+}
+
+export const downloadFile = (file: FileData) => async () => {
+  console.log(apiBaseURL)
+  const response = await fetch(`${apiBaseURL}files/download?id=${file._id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+
+  if (response.status === 200) {
+    const blob = await response.blob()
+    const downloadUrl = window.URL.createObjectURL(blob)
+
+    const link = document.createElement("a")
+    link.href = downloadUrl
+
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
   }
 }

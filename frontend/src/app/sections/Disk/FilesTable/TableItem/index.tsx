@@ -8,6 +8,7 @@ import {State} from "store/store"
 import {useDispatch, useSelector} from "react-redux"
 
 import style from "./style.module.scss"
+import ContextMenu from "./ContextMenu";
 
 type Props = {
   file: FileData
@@ -32,6 +33,7 @@ const TableItem: FC<Props> = ({file}) => {
         </TableCell>
         <TableCell align="left">{file.date.toString().slice(0, 10)}</TableCell>
         <TableCell align="left">{file.size}</TableCell>
+        <TableCell align="left"><ContextMenu file={file} /></TableCell>
       </TableRow>
   )
 }

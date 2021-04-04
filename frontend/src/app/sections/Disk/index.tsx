@@ -8,7 +8,7 @@ import FilesTable from "./FilesTable"
 import Modal from "./Modal"
 
 import style from "./style.module.scss"
-import FileUpload from "./FileUpload";
+import FileUpload from "./FileUpload"
 
 const Disk = () => {
   const dispatch = useDispatch()
@@ -35,7 +35,6 @@ const Disk = () => {
   }
 
   const dragEnter = (event: React.DragEvent) => {
-    console.log("dragEnter")
     event.preventDefault()
     event.stopPropagation()
 
@@ -43,7 +42,6 @@ const Disk = () => {
   }
 
   const dragLeave = (event:React.DragEvent) => {
-    console.log("dragLeave")
     event.preventDefault()
     event.stopPropagation()
 
@@ -51,7 +49,6 @@ const Disk = () => {
   }
 
   const onDrop = (event: React.DragEvent) => {
-    console.log("onDrag")
     event.preventDefault()
     event.stopPropagation()
 
@@ -60,6 +57,10 @@ const Disk = () => {
     files.forEach((file: File)=> dispatch(uploadFile(file, currentDir)))
     }
     setDragEnter(false)
+  }
+
+  const onDownloadHandler = () => {
+    console.log("meow")
   }
 
   return ( !isDragEnter ?

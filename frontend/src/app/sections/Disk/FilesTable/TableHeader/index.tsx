@@ -15,6 +15,7 @@ const TableHeader: FC = () => {
         {columns.map((column) => (
           <TableCell key={column.id} align="left">{column.label}</TableCell>
         ))}
+        <TableCell align="left" />
       </TableRow>
     </TableHead>
   )

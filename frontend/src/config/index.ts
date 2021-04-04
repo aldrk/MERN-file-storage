@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 export default {
-  API_DOMAIN: "http://localhost:5000/",
+  API_DOMAIN: "http://localhost:5001/",
   baseUrl: "api/",
   paths: {
     registration: "auth/registration",

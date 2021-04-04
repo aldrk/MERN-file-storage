@@ -1,0 +1,13 @@
+@import "src/styles/pallete";
+
+.contextMenuWrapper {
+  padding: 0!important;
+
+  > * {
+    padding: 0!important;
+  }
+
+  .menuItem {
+    background-color: $main2!important;
+  }
+}

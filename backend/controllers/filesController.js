@@ -42,7 +42,6 @@ class FileController {
     async uploadFile(req, res) {
         try {
             const file = req.files.file
-            console.log(req.user)
             const parent = await File.findOne({user: req.user.id, _id: req.body.parent})
             const user = await User.findOne({_id: req.user.id})
 
@@ -66,7 +65,6 @@ class FileController {
             await file.mv(path)
 
             const type = file.name.split(".").pop()
-            console.log()
 
             const dbFile = new File({
                 name: file.name,
@@ -84,6 +82,23 @@ class FileController {
         } catch (e) {
             console.log(e)
             res.status(400).json({message: "Upload error"})
+        }
+    }
+
+    async downloadFile(req, res) {
+        try {
+            const file = await File.findOne({_id: req.query.id, user: req.user.id})
+
+            const path = `${config.get("filePath")}/${req.user.id}/${file.name}`
+
+            if (fs.existsSync(path)) {
+                return res.download(path, file.name)
+            }
+
+            return res.status(400).json({message: "Download error"})
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({message: "Server error"})
         }
     }
 }

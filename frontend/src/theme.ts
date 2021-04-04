@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core"
 
 const theme = createMuiTheme({
   typography: {
@@ -15,4 +15,14 @@ const theme = createMuiTheme({
       '"Segoe UI Symbol"',
     ].join(','),
   },
+
+  overrides: {
+    MuiList: {
+      root: {
+        backgroundColor: "#1769aa"
+      }
+    }
+  }
 })
+
+export default theme

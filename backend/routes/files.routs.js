@@ -7,6 +7,7 @@ const router = Router()
 
 router.post("", authMiddleware, bodyParser.json(), filesController.createDir)
 router.get("", authMiddleware, bodyParser.json(), filesController.getFiles)
+router.get("/download", authMiddleware, bodyParser.json(), filesController.downloadFile)
 
 router.post("/upload", authMiddleware, bodyParser.json(), filesController.uploadFile)
 
