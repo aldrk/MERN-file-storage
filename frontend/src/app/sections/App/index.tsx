@@ -6,10 +6,11 @@ import Registration from "../Auth"
 import Container from "app/components/Container"
 import styleScss from "./style.module.scss"
 import {useDispatch, useSelector} from "react-redux"
-import {authUserWithToken} from "store/dispatchers/user"
+import {authUserWithToken, logOut} from "store/dispatchers/user"
 import {State} from "store/store"
 import Disk from "../Disk"
 import {useToasts} from "react-toast-notifications"
+import {useUpdateEffect} from "react-use"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,10 @@ const App = () => {
   useEffect(() => {
     dispatch(authUserWithToken())
   }, [])
+
+  useUpdateEffect(() => {
+    if (!isAuth) dispatch(logOut())
+  }, [isAuth])
 
   return (
     <BrowserRouter>

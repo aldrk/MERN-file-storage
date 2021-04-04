@@ -3,12 +3,14 @@ import {Dispatch} from "redux"
 import API from "lib/api"
 import {FileData} from "store/interfaces/files"
 import config from "config"
+import {loginUserFailAC} from "../actions/user";
 
 const {API_DOMAIN, baseUrl} = config
 const apiBaseURL = `${API_DOMAIN}${baseUrl}`
 
 export const getFiles = (dirId: string, sortValue: string) => (dispatch: Dispatch) => {
   let url = ""
+  if (!dirId && !sortValue) return
 
   if (dirId) {
     url = `files/?parent=${dirId}`
@@ -28,6 +30,7 @@ export const getFiles = (dirId: string, sortValue: string) => (dispatch: Dispatc
     API.get(url, {
       headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
     }).then(({data}) => {
+      console.log(data)
       dispatch(setFilesAC(data))
     }).catch(({data}) => dispatch(setErrorAC(data)))
   } catch (e) {
@@ -114,4 +117,10 @@ export const deleteFile = (file: FileData) => (dispatch: Dispatch) => {
     .catch((e) => {
       dispatch(setErrorAC(e.message))
     })
+}
+
+export const searchFiles = (searchValue: string) => (dispatch: Dispatch) => {
+  API.get(`/files/search?name=${searchValue}`,  {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}})
+    .then(({data}) => dispatch(setFilesAC(data)))
+    .catch(e => dispatch(setErrorAC(e.message)))
 }

@@ -6,5 +6,7 @@ export default {
     registration: "auth/registration",
     login: "auth/login",
     auth: "auth/auth"
-  }
+  },
+
+  inputTimeout: 750
 }

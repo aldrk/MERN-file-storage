@@ -1,7 +1,7 @@
 import {Box, Button} from "@material-ui/core"
 import React, {useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {getFiles, uploadFile} from "store/dispatchers/files"
+import {getFiles, searchFiles, uploadFile} from "store/dispatchers/files"
 import {setCurrentDirAC} from "store/actions/files"
 import {State} from "store/store"
 import FilesTable from "./FilesTable"
@@ -10,6 +10,8 @@ import Modal from "./Modal"
 import style from "./style.module.scss"
 import FileUpload from "./FileUpload"
 import Sort from "./Sort";
+import Search from "../../components/Search";
+import {useUpdateEffect} from "react-use"
 
 const Disk = () => {
   const dispatch = useDispatch()
@@ -17,10 +19,15 @@ const Disk = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [isDragEnter, setDragEnter] = useState(false)
   const [sortValue, setSortVale] = useState("")
+  const [searchValue, setSearchValue] = useState("")
 
   useEffect(() => {
     dispatch(getFiles(currentDir, sortValue))
   }, [currentDir, sortValue])
+
+  useUpdateEffect(() => {
+    dispatch(searchFiles(searchValue))
+  }, [searchValue])
 
   const onBackClickHandler = () => {
     const backDirId = dirStack.pop()
@@ -70,8 +77,9 @@ const Disk = () => {
           <Button color="primary" variant="outlined" onClick={() => setModalOpen(true)}>Создать папку</Button>
           <FileUpload onChange={onUpload}/>
           <Sort className={style.sort} sortValue={sortValue} setSortValue={setSortVale} />
+          <Search defaultValue={searchValue} onChange={setSearchValue} />
         </div>
-        <FilesTable files={files} />
+        {!!files.length ? <FilesTable files={files} /> : "Нет файлов"}
       </Box>
     </div>
       : <div className={style.dragArea} onDragEnter={dragEnter} onDragLeave={dragLeave} onDragOver={dragEnter} onDrop={onDrop}>Загрузить файл</div>
