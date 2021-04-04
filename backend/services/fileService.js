@@ -3,10 +3,10 @@ const File = require("../models/File")
 const config = require("config")
 
 class FileService {
-    createDir(file) {
+    createDir(file, req) {
         return new Promise(((resolve, reject) => {
             try {
-                const filePath = `${config.get("filePath")}/${file.user}/${file.path}`
+                const filePath = `${req.filePath}/${file.user}/${file.path}`
                 if (!fs.existsSync(filePath)) {
                     fs.mkdirSync(filePath)
 

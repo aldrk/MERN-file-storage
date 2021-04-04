@@ -13,7 +13,7 @@ class FileController {
 
             if (!parentFile) {
                 file.path = name
-                await fileService.createDir(file)
+                await fileService.createDir(file, req)
             } else {
                 file.path = `${parentFile.path}/${file.name}`
                 parentFile.children.push(file._id)
@@ -79,9 +79,9 @@ class FileController {
 
             let path
             if (parent) {
-                path = `${config.get("filePath")}/${user.id}/${parent.path}/${file.name}`
+                path = `${req.filePath}/${user.id}/${parent.path}/${file.name}`
             } else {
-                path = `${config.get("filePath")}/${user.id}/${file.name}`
+                path = `${req.filePath}/${user.id}/${file.name}`
             }
 
             if (fs.existsSync(path)) {
@@ -115,7 +115,7 @@ class FileController {
         try {
             const file = await File.findOne({_id: req.query.id, user: req.user.id})
 
-            const path = `${config.get("filePath")}/${req.user.id}/${file.name}`
+            const path = `${req.filePath}/${req.user.id}/${file.name}`
 
             if (fs.existsSync(path)) {
                 return res.download(path, file.name)
